@@ -1,3 +1,4 @@
+//DATA
 const chairs = [
     {
         title: 'Удобное зеленое кресло',
@@ -45,12 +46,14 @@ const chairs = [
         img: 'img/chair09.jpg'
     }
 ]
-
+//VARIABLES
 let mainCount = 0
-
+const mobileToggler = document.querySelector('.navbar-toggler')
+const startItemNumber = 4
+//FUNCTIONS
 function createItem(item, elem) {
     elem.insertAdjacentHTML('beforeend',`
-    <div class="col-12 col-md-6 col-lg-3 mb-4 fade-anim">
+    <div class="col-12 col-sm-6 col-lg-3 mb-4 fade-anim">
         <div class="products__item">
         <img class="products__img" src="${item.img}" alt="chair">
             <div class="products__description">${item.title}</div>
@@ -60,9 +63,8 @@ function createItem(item, elem) {
     </div>`)
 }
 
-
 function displayItem() {
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < startItemNumber; i++) {
         if (!chairs[mainCount]) {
             return
         }
@@ -71,33 +73,11 @@ function displayItem() {
     }
 }
 
-
-window.onload = () => {
-    displayItem()
-}
-
-
-getMore.onclick = () => {
-    displayItem()
-    if (chairs.length <= mainCount) {
-        getMore.style.display = 'none'
-    }
-}
-
-searchInput.addEventListener('keydown', function(e) {
-        if (e.keyCode === 13 && searchInput.value) {
-            search()
-        }
-})
-
-searchBtn.onclick = () => {
-    if (searchInput.value) {
-        search()
-    }
-}
-
 function search() {
-    displaySearch()
+    if (searchContainer.classList.contains('d-none')) {
+        searchContainer.classList.remove('d-none')
+    }
+
     searchResult.innerHTML = ''
     const searchValue = String(searchInput.value).toLowerCase()
     const searchValueArray = searchValue.split(' ')
@@ -127,9 +107,34 @@ function search() {
         searchResultInfo.innerHTML = ''
     }
 }
+//EVENTS
+window.onload = () => {
+    displayItem()
+}
 
-function displaySearch() {
-    if (searchContainer.classList.contains('d-none')) {
-        searchContainer.classList.remove('d-none')
+getMore.onclick = () => {
+    displayItem()
+    if (chairs.length <= mainCount) {
+        getMore.style.display = 'none'
+    }
+}
+
+searchInput.addEventListener('keydown', function(e) {
+        if (e.keyCode === 13 && searchInput.value) {
+            search()
+        }
+})
+
+searchBtn.onclick = () => {
+    if (searchInput.value) {
+        search()
+    }
+}
+
+mobileToggler.onclick = () => {
+    if (!mobileToggler.classList.contains('navbar-toggler--active')) {
+        mobileToggler.classList.add('navbar-toggler--active')
+    } else {
+        mobileToggler.classList.remove('navbar-toggler--active')
     }
 }
